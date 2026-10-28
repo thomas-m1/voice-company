@@ -207,11 +207,6 @@ make scenario                                # automated demo storyline, prints 
 
 Voice Company started as a team project at the **Boson AI × MScAC Higgs Audio Hackathon** (October 2026). The original team repo is [adamcorm28/boson-hackathon-2026](https://github.com/adamcorm28/boson-hackathon-2026).
 
-| Who | GitHub | Built |
-|---|---|---|
-| Thomas Michalski | [@thomas-m1](https://github.com/thomas-m1) | Design and plan, company layer and Paperclip integration, personas and seed data, agent skills, research on Opus 5.5, PDF documents, local setup and tooling |
-| Adam Cormier | [@adamcorm28](https://github.com/adamcorm28) | Voice gateway on Higgs Realtime: call sessions, tools, briefing, quiet-gap injection, call memory, delegation guard; Boson endpoints; avatars and live video calls; cloned voices |
-| Paul Ellement | | Frontend: arcade office, call window, mic and audio, board, result viewer, HUD and toasts, classic mode with contact profiles and themes, demo script |
 
 ## Credits and likeness
 
