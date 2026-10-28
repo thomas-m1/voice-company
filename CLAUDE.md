@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A hackathon project (Boson AI × MScAC Higgs Audio Hackathon, demo recorded before 3 PM Sat 2026-10-24). You "call" AI employees of a parody **Dunder Mifflin Scranton** in a retro pixel-art office. Each call is a live Higgs Realtime voice session. The employees can delegate slow work to background Paperclip agents running Claude Code, and finished work is announced mid-conversation.
+Voice Company: a company of AI employees you can phone. It started at the Boson AI × MScAC Higgs Audio Hackathon (October 2026). The default cast is a comedic parody of **Dunder Mifflin Scranton** in a retro pixel-art office, but the engine works for any team. Each call is a live Higgs Realtime voice session. The employees can delegate slow work to background Paperclip agents running Claude Code, and finished work is announced mid-conversation.
 
 **Read before building:**
 - `docs/superpowers/specs/2026-10-23-voice-company-design.md`: the design, which is the binding authority.

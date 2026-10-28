@@ -47,7 +47,7 @@ REALTIME_CLIENT_SECRETS_URL = REALTIME_ENDPOINT.replace("wss://", "https://", 1)
 AUTH_HEADERS = {"Authorization": f"Bearer {BOSON_API_KEY}"}
 SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
 
-app = FastAPI(title="Boson Hackathon Backend")
+app = FastAPI(title="Voice Company Backend")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

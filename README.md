@@ -1,30 +1,31 @@
-# Dunder Mifflin Infinity Voice™
+# Voice Company
 
 **A company you can call.** Every employee is an AI agent with a role, a personality, a voice and a face. You phone them and talk in real time: ask how the quarter is going, interrupt them, tell them to fix something. Slow work goes to a background coding agent while the conversation carries on, and when the work is done they tell you, even if you're on a call with someone else at the time.
 
-Built for the **Boson AI × MScAC Higgs Audio Hackathon** (October 2026). Voice runs on **Boson Higgs Realtime**, faces on **Higgs Avatar**, and the background work on **Paperclip** agents running **Claude Code**. Our company is a parody of Dunder Mifflin Scranton from *The Office*, because everyone already knows who does what there. The engine underneath works for any team.
+Voice runs on **Boson Higgs Realtime**, faces on **Higgs Avatar**, and the background work on **Paperclip** agents running **Claude Code**. The engine is team-agnostic: an employee is one YAML file and one agent brief, so you can staff it with any roles you like.
 
-- **Demo video:** _add the link before submitting_
+The default cast is a parody of Dunder Mifflin Scranton from *The Office*. It's there for comedy, and because everyone already knows who does what in that office. Underneath the jokes, every employee behaves like a sharp, cooperative colleague.
+
 - **Product brief:** [docs/product-brief.md](docs/product-brief.md)
 - **Design spec:** [docs/superpowers/specs/2026-10-23-voice-company-design.md](docs/superpowers/specs/2026-10-23-voice-company-design.md)
 
 ## What you can do
 
-- **Call any of five employees,** as an audio call or a video call with a lip-synced live avatar. Pick them from a phone-style contact list (classic mode), or walk up to their desk in a pixel-art office (arcade mode).
+- **Call any employee,** as an audio call or a video call with a lip-synced live avatar. Pick them from a phone-style contact list (classic mode), or walk up to their desk in a pixel-art office (arcade mode).
 - **Talk naturally.** Each call is a live Higgs Realtime session, so you can cut anyone off mid-sentence and they stop and listen.
 - **Get real answers.** Each employee is briefed on the live state of the company when you dial (open tasks, flags, what you discussed last time), and pulls every number from a tool: financials, the CRM pipeline, the inbox, the task board.
-- **Hand off real work.** "Have Dwight fix the checkout bug" creates a task on the company board. A Claude Code agent picks it up, fixes the bug in a real repo, runs the tests and opens a pull request.
+- **Hand off real work.** "Have the engineer fix the checkout bug" creates a task on the company board. A Claude Code agent picks it up, fixes the bug in a real repo, runs the tests and opens a pull request.
 - **Keep talking while it runs.** When the work finishes, the person you're talking to tells you in the next pause, in their own words, without cutting you off.
 - **Ask for research.** Every employee can research the outside world (competitors, markets, prospects) on Claude Opus 5.5 and send back a written brief or a PDF.
 - **See everything.** A shared task board updates live, toasts announce finished work, a result viewer shows diffs, PRs and decks, and a Documents panel collects every file the team produced.
 
-## Where Higgs Audio is used
+## Built on Higgs Audio
 
 | Boson model / API | What it does here |
 |---|---|
 | **Higgs Realtime** (`higgs-realtime`) | The *voice body* of every employee: low-latency speech-to-speech with server VAD and barge-in, function calling into the company tools, and the server-side `web_search` tool. |
 | **Higgs STT** (`higgs-stt-3.1`) | Live transcripts of what you say, shown in the call window and used for call memory. |
-| **Voice cloning** (`voice_<id>`) | Each employee speaks with a voice cloned from a teammate's recorded impression of the character, never the actor's voice. Boson presets are the fallback. |
+| **Voice cloning** (`voice_<id>`) | Employees can speak with cloned voices (ours are teammates' own recorded impressions, never an actor's voice). Boson presets are the fallback. |
 | **Higgs Avatar, live** (LiveKit sessions) | Video calls: the employee's realtime audio drives a lip-synced preset avatar, which goes quiet the instant you interrupt. |
 | **Higgs Avatar, video** (`higgs-avatar`) + **Higgs TTS** (`higgs-tts-3`) | Optional faces from a photo you own: idle and talking loops rendered once and cached. |
 
@@ -35,8 +36,8 @@ This runs the whole voice experience on an in-memory company. Delegated tasks "f
 **You need:** Python 3.11+, Node 24, a Boson API key, Chrome, and headphones. An Anthropic API key (`ANTHROPIC_API_KEY`) is optional: it writes the call summaries that employees remember, and without it they remember your last few lines instead.
 
 ```bash
-git clone https://github.com/adamcorm28/boson-hackathon-2026.git
-cd boson-hackathon-2026
+git clone https://github.com/thomas-m1/voice-company.git
+cd voice-company
 
 # Backend
 cd backend
@@ -58,17 +59,17 @@ make up-mock
 
 Open **http://localhost:5173** in Chrome, allow the microphone, and **wear headphones** (through speakers the agent hears itself and stops talking).
 
-**Try this:**
-1. Call **Michael**: *"How's the branch doing?"*, then *"Anything I should worry about?"*
-2. Call **Ryan**: *"What's going on with Infinity?"*, then *"Have Dwight fix it."* Open the board (**B**) and watch the card move.
-3. Call **Jim**: *"How's the pipeline looking?"* Interrupt him halfway through. Then just chat. About 45 s after Ryan's hand-off, Jim tells you Dwight is done.
+**Try this** (with the default cast):
+1. Call **Michael**, the CEO: *"How's the branch doing?"*, then *"Anything I should worry about?"*
+2. Call **Ryan**, the engineering lead: *"What's going on with Infinity?"*, then *"Have Dwight fix it."* Open the board (**B**) and watch the card move.
+3. Call **Jim**, the sales lead: *"How's the pipeline looking?"* Interrupt him halfway through. Then just chat. About 45 s after Ryan's hand-off, Jim tells you Dwight is done.
 4. Click the toast to open the result.
 
 **Video calls** need a LiveKit Cloud project (free tier is fine): set `LIVEKIT_URL`, `LIVEKIT_API_KEY` and `LIVEKIT_API_SECRET` in `backend/.env`. Without them, choose **Audio** when you dial.
 
 ## Full setup (real agents doing real work)
 
-This adds a local Paperclip company whose five agents run Claude Code, so a hand-off really fixes code, builds decks and writes research.
+This adds a local Paperclip company whose agents run Claude Code, so a hand-off really fixes code, builds decks and writes research.
 
 **You need** everything above, plus Node ≥ 24.11, git, the GitHub CLI (`gh auth login`), and **Claude Code installed and logged in**. The agents run on your Claude login, so their work uses your subscription. The engineer works in the demo repo [`thomas-m1/dunder-mifflin-infinity`](https://github.com/thomas-m1/dunder-mifflin-infinity), which has a seeded bug.
 
@@ -82,7 +83,7 @@ make up                                     # Paperclip (:3100) + gateway (:8000
 - creates `backend/.venv` and `paperclip/.venv`
 - clones the demo repo next to this one
 - starts a local Paperclip at http://127.0.0.1:3100 (log at `~/.paperclip/dev-server.log`)
-- seeds Dunder Mifflin: five agents, an org chart and 10 tasks
+- seeds the company: five agents, an org chart and 10 tasks
 
 Each machine runs its own Paperclip and gets its own company and board. `paperclip_ids.json` is optional, because the client finds the seeded company by name.
 
@@ -102,23 +103,25 @@ Each machine runs its own Paperclip and gets its own company and board. `papercl
 
 | | Classic mode | Arcade mode |
 |---|---|---|
-| Look | A phone contact list with profiles, light and dark | A pixel-art Scranton office with a whiteboard HUD |
+| Look | A phone contact list with profiles, light and dark | A pixel-art office with a whiteboard HUD |
 | Call someone | **↑ ↓** select, **Enter** call | **← ↑ ↓ →** walk to their desk, **E** call |
 | Either mode | **M** switch mode · **B** task board · **F** Documents · **Esc** hang up / close | **Q** turns idle office chatter on and off |
 
 Dialing asks **Audio** (A) or **Video** (V). During a call, the window shows the live transcript, a waveform, task chips when work is handed off, and any files the employee just finished. Walking more than 2 tiles from a desk in arcade mode hangs up.
 
-## The team
+## The default team
 
-| Employee | Role | Their job | Tools on a call |
+Five roles that cover a small company end to end. Each one is played by a character from the parody cast.
+
+| Role | Played by | Their job | Tools on a call |
 |---|---|---|---|
-| **Michael Scott** | Regional Manager (CEO) | Q4 targets, KPIs, the inbox; hands work to anyone | company overview, inbox, board, delegate, handbook, research |
-| **Kevin Malone** | Accounting (CFO) | P&L, margin, forecasts, what the AI staff costs | financials, AI spend, board, delegate, handbook, research |
-| **Ryan Howard** | Engineering Lead | Owns the Infinity ordering site; triages bugs, assigns and reviews | my work, board, delegate, handbook, web search, research |
-| **Dwight Schrute** | Engineer | Fixes and builds Infinity, runs tests, opens PRs | my work, board, delegate, handbook, research |
-| **Jim Halpert** | Sales Lead | Pipeline and deals, new leads, pitch decks | pipeline, deals, my work, delegate, web search, handbook, research |
+| **CEO** | Michael Scott | Q4 targets, KPIs, the inbox; hands work to anyone | company overview, inbox, board, delegate, handbook, research |
+| **CFO** | Kevin Malone | P&L, margin, forecasts, what the AI staff costs | financials, AI spend, board, delegate, handbook, research |
+| **Engineering Lead** | Ryan Howard | Owns the ordering site; triages bugs, assigns and reviews | my work, board, delegate, handbook, web search, research |
+| **Engineer** | Dwight Schrute | Fixes and builds the site, runs tests, opens PRs | my work, board, delegate, handbook, research |
+| **Sales Lead** | Jim Halpert | Pipeline and deals, new leads, pitch decks | pipeline, deals, my work, delegate, web search, handbook, research |
 
-The characters are text personas only, written as excellent, cooperative colleagues: the Office humor is limited to one bit per reply and never gets in the way of the work.
+The characters are text personas only. They lead with the answer, never stall or refuse, and keep the humor to one bit per reply so it never gets in the way of the work. To swap in your own team, see [Adding an employee](#adding-an-employee).
 
 ## How it works
 
@@ -200,14 +203,16 @@ make scenario                                # automated demo storyline, prints 
 - Cloned voices are tied to the Boson account that made them.
 - Background tasks take minutes, not seconds: a bug fix takes about 2 to 3 minutes, and a deck or research brief takes longer.
 
-## Team
+## Origin
+
+Voice Company started as a team project at the **Boson AI × MScAC Higgs Audio Hackathon** (October 2026). The original team repo is [adamcorm28/boson-hackathon-2026](https://github.com/adamcorm28/boson-hackathon-2026).
 
 | Who | GitHub | Built |
 |---|---|---|
 | Thomas Michalski | [@thomas-m1](https://github.com/thomas-m1) | Design and plan, company layer and Paperclip integration, personas and seed data, agent skills, research on Opus 5.5, PDF documents, local setup and tooling |
 | Adam Cormier | [@adamcorm28](https://github.com/adamcorm28) | Voice gateway on Higgs Realtime: call sessions, tools, briefing, quiet-gap injection, call memory, delegation guard; Boson endpoints; avatars and live video calls; cloned voices |
-| Paul Ellement | _add handle_ | Frontend: arcade office, call window, mic and audio, board, result viewer, HUD and toasts, classic mode with contact profiles and themes, demo script |
+| Paul Ellement | | Frontend: arcade office, call window, mic and audio, board, result viewer, HUD and toasts, classic mode with contact profiles and themes, demo script |
 
 ## Credits and likeness
 
-*The Office* and Dunder Mifflin belong to their owners; this is a non-commercial parody for a hackathon. The characters are text personas only. We never clone the actors' voices or use their photos: the voices are teammates' own recorded impressions or Boson presets, and the faces are original pixel art or Boson's preset avatars.
+*The Office* and Dunder Mifflin belong to their owners. The default cast is a non-commercial parody, used for comedic effect. The characters are text personas only. We never clone the actors' voices or use their photos: the voices are teammates' own recorded impressions or Boson presets, and the faces are original pixel art or Boson's preset avatars.
